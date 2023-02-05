@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
 export default function Courses({teacherCourses,userData,setTeacherCourses,nav,
-    setSelectCourse,selectCourse}) {
+    setSelectCourse,selectCourse,setSelectCourseId}) {
 
     useEffect(() => {
         handleStudentCourses();   
@@ -11,8 +11,9 @@ export default function Courses({teacherCourses,userData,setTeacherCourses,nav,
            setTeacherCourses(userData?.instructor.teaching);
        }
        
-       const handleCourse=(coursename)=>{
+       const handleCourse=(coursename,courseId)=>{
         setSelectCourse(coursename);
+        setSelectCourseId(courseId)
         nav('/teacherDashboard')
        }
     
@@ -37,7 +38,7 @@ export default function Courses({teacherCourses,userData,setTeacherCourses,nav,
             teacherCourses.map(course=>(
                                    
                 <div  className='box-container course 
-                dashboard-sub-head' onClick={()=>{handleCourse(course.courseName)}}>
+                dashboard-sub-head' onClick={()=>{handleCourse(course.courseName,course.courseId)}}>
                         ({course.courseId}) {course.courseName} 
                     <div className='dashboard-btn'>View</div>
                 </div>

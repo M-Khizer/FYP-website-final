@@ -8,7 +8,11 @@ export default function Attendance({userData,selectCourse}) {
     console.log('attendance component ')
 
     let [attendanceData,setAttendanceData] = useState([]);
-    console.log(userData)
+    const [filteredCourses,setFilteredCourses]=useState([]);
+   
+    // console.log(userData)
+   
+   
     const handleGetAttendance= async()=>{
         const res = await axios.post('https://sdok7nl5h2.execute-api.ap-northeast-1.amazonaws.com/prod/getattendance',{
           studentId:null
@@ -21,17 +25,14 @@ export default function Attendance({userData,selectCourse}) {
 
     useEffect(() => {
       handleGetAttendance();
-    }, [])
+      
+      setFilteredCourses(attendanceData.filter(data=>data.courseName === selectCourse)
+      )
+    }, [filteredCourses])
 
-    // const [fileHeaders] = useState[
-    //   {label: 'ID', key: 'attendanceData.studentId'},
-    //   {label: 'First Name', key: 'attendanceData.firstName'},
-    //   {label: 'Last Name', key: 'attendanceData.lastName'},
-    //   {label: 'Time In', key: 'attendanceData.timeIn'},
-    //   {label: 'Course Name', key: 'attendanceData.courseName'},
-    //   {label: 'Course Id', key: 'attendanceData.courseId'}
-    // ]
-     
+    
+
+
   return (
 <div className='main'>
         <div className='sub-main'>
@@ -98,8 +99,8 @@ export default function Attendance({userData,selectCourse}) {
                 <div>
         
         <CSVLink
-        // headers={fileHeaders}
-        data={attendanceData}
+        className='btn'
+        data={filteredCourses}
         filename="results.csv"
         target="_blank"
       >

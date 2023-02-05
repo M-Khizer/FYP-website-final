@@ -115,16 +115,11 @@ body{
 .cam-display{
   width: 50%;
   height: 70%;
-  /* border:1px solid red; */
-  /* border-radius: 1rem; */
   margin-right: 1rem;
 }
 
 .student-list{
-  /* border: 1px solid green; */
-  /* color: tomato; */
-  /* display: flex;
-  flex-direction: column; */
+ 
   width: 50%;
   background-color: rgba(211, 211, 211, 0.666);
   border-radius: 2rem;

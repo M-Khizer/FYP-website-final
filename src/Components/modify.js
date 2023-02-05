@@ -1,31 +1,54 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 
-export default function Modify({userData,selectCourse}) {
+export default function Modify({userData,selectCourse,selectCourseId}) {
 
     const [studentId,setStudentId]=useState('');
     const [student,setStudent]=useState({});
+
+    const getStudent=()=>{
+
+    }
 
     const handleModify= async(e)=>{
         e.preventDefault();
         const res = await axios.post('https://sdok7nl5h2.execute-api.ap-northeast-1.amazonaws.com/prod/studentinfo',{
             studentId:studentId
-        }).then(res=>{
-            console.log(res.data)
         })
+        // .then(res=>{
+        //     console.log(res.data)
+        //     // setStudent(res.data)
+        // })
 
-        // const data = (await res).data;
-        // console.log(data)
-        
-        // setStudent(data)
-
-         if(student.length>0){
-            console.log(student.firstName)
-         }else{
-            console.log('student not found')
-         }
+        const data = await res.data;
+        setStudent(data)
+        console.log(student)
     }
-    
+
+    const handleModifyAttendance= async(e)=>{
+        console.log(student.student.studentId);
+        console.log(student.student.firstName);
+        console.log(student.student.lastName);
+        console.log(selectCourse);
+        console.log(Date().toLocaleString());
+        console.log(selectCourseId);
+        // console.log(studentId);
+        // console.log(studentId);
+
+        e.preventDefault()
+        const res = await axios.post("https://sdok7nl5h2.execute-api.ap-northeast-1.amazonaws.com/prod/attendance",{
+            timeIn: Date().toLocaleString(),
+            studentId: student.student.studentId,
+            lastName: student.student.lastName,
+            courseId: selectCourseId,
+            classSection: student.student.classSection,
+            firstName: student.student.firstName,
+            courseName:  selectCourse
+        }).then(console.log('attendance marked'))
+    }
+
+    console.log(student.student)
+
 
   return (
     <div className='main'>
@@ -48,12 +71,13 @@ export default function Modify({userData,selectCourse}) {
                         placeholder='student id'
                         onChange={e=>{setStudentId(e.target.value)}}/>
                     <button>Search</button>
-                    <div>{studentId}</div>
+                    {/* <div>{student.firstName}</div> */}
+                    
                 </form>
                 
-                <div>
-                    {/* {student.map(item=>(<h3>{item.firstName}</h3>))} */}
-                </div>
+                <form onSubmit={handleModifyAttendance}>
+                    <button>Submit</button>
+                </form>
             
                 
             </div>

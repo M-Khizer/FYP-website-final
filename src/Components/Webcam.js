@@ -3,7 +3,6 @@ import { useState,useRef } from "react";
 import {QrReader} from "react-qr-reader";
 import { useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
-import Distance from './distance';
 import axios from 'axios';
 
 // import { json } from 'react-router-dom';
