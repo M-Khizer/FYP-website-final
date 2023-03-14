@@ -28,7 +28,7 @@ export default function Attendance({userData,selectCourse}) {
       
       setFilteredCourses(attendanceData.filter(data=>data.courseName === selectCourse)
       )
-    }, [filteredCourses])
+    }, [])
 
     
 
@@ -72,7 +72,7 @@ export default function Attendance({userData,selectCourse}) {
   <tbody>
     {attendanceData.filter(data=>data.courseName === selectCourse).map(item => {
       return (
-        <tr key={item.courseId}>
+        <tr>
           <td>{ item.courseId }</td>
           <td>{ item.courseName }</td>
           <td>{ item.firstName }</td>

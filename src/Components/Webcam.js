@@ -102,23 +102,30 @@ export default function Webcam({startScan,userData,selectCourse}) {
     //     : null
     // );
     const [qrTimeIn, setQrTimeIn] = useState('')
-   
+
+    const [stdId,setStdId]=useState([]);
+
     useEffect(() => {
-      //   location();
+      
       navigator.geolocation.getCurrentPosition(pos=>{
           console.log("lat1",lat1);
           console.log("lon1",lon1);
-          console.log("alt1:",alt1);
           console.log('radius',radius);
-          // console.log("lon2:",lon2);
           
           setLat1(pos.coords.latitude);
           setLon1(pos.coords.longitude);
-          setAlt1(pos.coords.altitude);
+      
+          console.log(stdId)
 
-          distance(lat1,lat2,lon1,lon2);
+          if(stdId.includes(qrStudentId) === false){
+            distance(lat1,lat2,lon1,lon2);
+          }
+          else{
+            showAttendanceError('Attendance has already been marked')
+          }
 
-          // handleAttendance();
+
+        // handleAttendance();
 
         //   const items = JSON.parse(localStorage.getItem('dist'));
         // if(items){
@@ -131,8 +138,7 @@ export default function Webcam({startScan,userData,selectCourse}) {
       
       
       
-      function distance(lat1,
-          lat2, lon1, lon2)
+      function distance(lat1,lat2, lon1, lon2)
   {
   
   // The math module contains a function
@@ -186,32 +192,38 @@ export default function Webcam({startScan,userData,selectCourse}) {
         position: toast.POSITION.TOP_RIGHT
     });
   };
+  
+  
   const handleAttendance= async()=>{
     console.log(qrStudentId)
       if (qrStudentId){
       // console.log(`teacher course ${selectCourse} student course ${qrCourseName}`)
 
       if(selectCourse.toString() === qrCourseName.toString()){
-        console.log(`teacher course ${selectCourse} student course ${qrCourseName}`)
         
         console.log("Post request hit");
 
         const res = await axios.post('https://sdok7nl5h2.execute-api.ap-northeast-1.amazonaws.com/prod/attendance',
         attendance).then((data)=>{
-          console.log(data.data.attendance.firstName)
-          setStudentName(prev=>[...prev,data.data.attendance.firstName])
-          // setStudentLastName(prev=>[...prev,qrLastName]);
-          // setStundentFirstName(prev=>[...prev,qrFirstName]);
+          console.log(data.data.attendance.studentId)
 
-          // setStudentName(prev=>[...prev,qrFirstName]);
+          setStdId(prev=>[...prev,data.data.attendance.studentId])
+          console.log(stdId);
+
+          setStudentName(prev=>[...prev,data.data.attendance.firstName])
           showSuccessMessage();
-        }).catch(e=>{
+          
+        })
+        .catch(e=>{
           showErrorMessage();        
         })
-      }else{
+      }
+
+      else{
         showAttendanceError('Wrong Course')    
       }
       }
+
       else{
         console.log('qr filled null');
       }
@@ -247,7 +259,7 @@ export default function Webcam({startScan,userData,selectCourse}) {
                 if (result) {
                 // console.log(result)
                 // setData(prev=>[...prev,result?.text])
-                const parseData1 = JSON.parse(result)
+               const parseData1 = JSON.parse(result)
                setQrAltitude(parseData1?.altitude);
                setQrClassSection(parseData1?.classSection);
                setQrCourseId(parseData1?.courseId);
@@ -267,7 +279,8 @@ export default function Webcam({startScan,userData,selectCourse}) {
         // }
       }}
         // style={{ border:'1px solid orange' }}
-        // ref={ref}
+        ref={ref}
+        
         className='cam-display'
     />
       )}           
