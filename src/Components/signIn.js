@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { logDOM } from '@testing-library/react';
+import Delete from '../delete';
 export default function SignIn({username,password,nav,setPassword,setUsername,
-  userData,setUserData,
+  user,setUser,
 }) {
   
   const [error,setError]=useState(false);
@@ -24,8 +25,9 @@ export default function SignIn({username,password,nav,setPassword,setUsername,
     setPassword('');
     const data =  await res.data;
     // console.log(data)
-    await setUserData(data);
-    localStorage.setItem('token',JSON.stringify(res.data.token));
+    await setUser(data);
+    localStorage.setItem('userData',JSON.stringify(res.data));
+
     // // console.log(data.user.name)
 
      // console.log(userData);

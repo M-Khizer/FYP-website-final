@@ -4,16 +4,20 @@ import {QrReader} from "react-qr-reader";
 import { useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import axios from 'axios';
+import Delete from '../delete';
 
-// import { json } from 'react-router-dom';
 
-export default function Webcam({startScan,userData,selectCourse}) {
+export default function Webcam({startScan,userData,selectCourse,nav,setSelectCourse,setSelectCourseId}) {
+  
+  setSelectCourse(JSON.parse(localStorage.getItem('selectCourse')));
 
-    const [loadingScan, setLoadingScan] = useState(false);
+  setSelectCourseId(JSON.parse(localStorage.getItem('selectCourseId')));
+  
+  const [loadingScan, setLoadingScan] = useState(false);
     // const [data, setData] = useState([]);
     let [lat1,setLat1]=useState(0);
     let [lon1,setLon1]=useState(0);
-    let [alt1,setAlt1]=useState(0);
+    // let [alt1,setAlt1]=useState(0);
     
     const [radius,setRadius]=useState(0);
     // const[studentFullName,setStudentFullName]=useState('');
@@ -111,6 +115,8 @@ export default function Webcam({startScan,userData,selectCourse}) {
           console.log("lat1",lat1);
           console.log("lon1",lon1);
           console.log('radius',radius);
+          console.log("lat2",lat2);
+          console.log("lon2",lon2);
           
           setLat1(pos.coords.latitude);
           setLon1(pos.coords.longitude);
@@ -123,15 +129,6 @@ export default function Webcam({startScan,userData,selectCourse}) {
           else{
             showAttendanceError('Attendance has already been marked')
           }
-
-
-        // handleAttendance();
-
-        //   const items = JSON.parse(localStorage.getItem('dist'));
-        // if(items){
-        //   setRadius(items);
-        //   // console.log(radius)
-        // }
       })
       }, [qrStudentId]);
       // console.log(qrAltitude)
@@ -165,9 +162,9 @@ export default function Webcam({startScan,userData,selectCourse}) {
   // calculate the result
   // setRadius(c*r);
   // console.log(c*r);
-  const rad=(c*r)*1000;
+  const rad=(c*r);
   setRadius(rad);
-  console.log('distance without alt',rad);
+  console.log('distance ',rad);
   if(rad<=10){
     handleAttendance();
   }
@@ -197,8 +194,8 @@ export default function Webcam({startScan,userData,selectCourse}) {
   const handleAttendance= async()=>{
     console.log(qrStudentId)
       if (qrStudentId){
-      // console.log(`teacher course ${selectCourse} student course ${qrCourseName}`)
-
+      console.log(`teacher course ${selectCourse} student course ${qrCourseName}`)
+     
       if(selectCourse.toString() === qrCourseName.toString()){
         
         console.log("Post request hit");
@@ -243,6 +240,7 @@ export default function Webcam({startScan,userData,selectCourse}) {
     
     <div className='main'>  
         <div className='sub-main web'>
+          <Delete nav={nav} />
         {/* <h2 className='heading student-name'>{userData?.user.name}</h2> */}
             
             {/* <div className='student-metadata'>

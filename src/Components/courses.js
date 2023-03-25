@@ -1,19 +1,24 @@
 import React, { useEffect } from 'react'
+import Delete from '../delete';
 
 export default function Courses({teacherCourses,userData,setTeacherCourses,nav,
-    setSelectCourse,selectCourse,setSelectCourseId}) {
+    setSelectCourse,selectCourse,setSelectCourseId, user}) {
+
+        console.log(user);
 
     useEffect(() => {
         handleStudentCourses();   
-       }, [userData])
+        // localStorage.setItem('token', JSON.stringify(userData.token));
+       }, [user])
        
        const handleStudentCourses=()=>{
-           setTeacherCourses(userData?.instructor.teaching);
+           setTeacherCourses(user?.instructor.teaching);
        }
        
        const handleCourse=(coursename,courseId)=>{
         setSelectCourse(coursename);
-        setSelectCourseId(courseId)
+        localStorage.setItem('selectCourse',JSON.stringify(coursename))
+        localStorage.setItem('selectCourseId',JSON.stringify(courseId))
         nav('/teacherDashboard')
        }
     
@@ -21,19 +26,18 @@ export default function Courses({teacherCourses,userData,setTeacherCourses,nav,
   return (
     <div className='main'>
     <div className='sub-main'>
-
-        <h2 className='heading student-name'>{userData?.user.name}</h2>
+        <Delete nav={nav} />
+        <h2 className='heading student-name'>{user?.user.name}</h2>
         
         <div className='student-metadata'>
             
-            <span>ID: {userData?.instructor.id}</span>
+            <span>ID: {user?.instructor.id}</span>
             {/* <span>{userData?.student.program}</span> */}
         </div>
 
         
         <div className='boxes'>
-        
-            
+
         {
             teacherCourses.map(course=>(
                                    

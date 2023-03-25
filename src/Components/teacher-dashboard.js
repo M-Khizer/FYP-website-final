@@ -1,9 +1,10 @@
 import React from 'react'
 import { useState,useEffect } from 'react';
+import Delete from '../delete';
 // import { useEffect } from 'react';
 
 export default function TeacherDashboard({userData,setUserData,nav,setStartScan,
-                                            setSelectCourse,selectCourse})
+                                            setSelectCourse,selectCourse, user})
     {
     
     const handleWebcam=()=>{
@@ -16,7 +17,7 @@ export default function TeacherDashboard({userData,setUserData,nav,setStartScan,
         console.log('student attendance clicked');
         nav('/attendance');
     }
-    console.log(userData)
+    console.log(user)
 
     const navtoModify=()=>{
         nav('/modify')
@@ -25,12 +26,13 @@ export default function TeacherDashboard({userData,setUserData,nav,setStartScan,
   return (
 <div className='main'>
         <div className='sub-main'>
+            <Delete nav={nav} />
 
-            <h2 className='heading student-name'>{userData?.user.name}</h2>
+            <h2 className='heading student-name'>{user?.user.name}</h2>
             
             <div className='student-metadata'>
                 
-                <span>ID: {userData?.instructor.id}</span>
+                <span>ID: {user?.instructor.id}</span>
                 <span>{selectCourse}</span>
             </div>
 

@@ -1,47 +1,42 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useEffect } from 'react'
-import { CSVLink } from 'react-csv'
+import { CSVLink,CSVDownload } from 'react-csv'
+import Delete from '../delete'
 
+function getAttendance(){
+  let attendance = localStorage.getItem('attendance');
+  if(attendance){
+    attendance = JSON.parse(attendance);
+  }
+  else{
+    attendance = [];
+  }
+  return attendance;
+}
 
-export default function Attendance({userData,selectCourse}) {
-    console.log('attendance component ')
+export default function Attendance({user, selectCourse,nav,attendanceData,setAttendanceData}) {
 
-    let [attendanceData,setAttendanceData] = useState([]);
-    const [filteredCourses,setFilteredCourses]=useState([]);
-   
-    // console.log(userData)
-   
-   
-    const handleGetAttendance= async()=>{
-        const res = await axios.post('https://sdok7nl5h2.execute-api.ap-northeast-1.amazonaws.com/prod/getattendance',{
-          studentId:null
-        })
-        const data = await res.data;
-        setAttendanceData(data.attendances)
-        console.log(attendanceData)
+   const [attendance] = useState(getAttendance());
+   const [filteredCourses, setFilteredCourses] = useState([]);
+   console.log(filteredCourses);
 
-    }
-
-    useEffect(() => {
-      handleGetAttendance();
-      
-      setFilteredCourses(attendanceData.filter(data=>data.courseName === selectCourse)
-      )
-    }, [])
-
-    
-
-
+   useEffect(()=>{
+    const filteredData = attendance.filter((data)=>data.courseName === selectCourse)
+    setFilteredCourses(filteredData);
+   },[selectCourse])
+ 
   return (
 <div className='main'>
-        <div className='sub-main'>
-
-            <h2 className='heading student-name'>{userData?.user.name}</h2>
+          <div className='sub-main'>
+  
+            <Delete nav={nav} />
+  
+            <h2 className='heading student-name'>{user?.user.name}</h2>
             
             <div className='student-metadata'>
                 
-                <span>ID: {userData?.instructor.id}</span>
+                <span>ID: {user?.instructor.id}</span>
                 <span>{selectCourse}</span>
             </div>
 
@@ -53,7 +48,7 @@ export default function Attendance({userData,selectCourse}) {
                 (
                 <>
                 {/* <h1>Attendance</h1> */}
-                {attendanceData.length>0 ?
+  {filteredCourses.length>0 ?
                 (
                   <>
   <table className='table-container'>
@@ -70,7 +65,7 @@ export default function Attendance({userData,selectCourse}) {
     </tr>
   </thead>
   <tbody>
-    {attendanceData.filter(data=>data.courseName === selectCourse).map(item => {
+    {filteredCourses.map(item => {
       return (
         <tr>
           <td>{ item.courseId }</td>
@@ -94,14 +89,13 @@ export default function Attendance({userData,selectCourse}) {
                 
                 )
                 }
-                
-
-                <div>
+              
+                <div className='export-container'>
         
         <CSVLink
-        className='btn'
+        className='export-btn'
         data={filteredCourses}
-        filename="results.csv"
+        filename={"att.csv"}
         target="_blank"
       >
         Export
