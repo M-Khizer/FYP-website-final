@@ -48,6 +48,7 @@ const [attendanceData,setAttendanceData] = useState([]);
 const [filteredCourses, setFilteredCourses] = useState([]);
     
 const nav = useNavigate();
+
 useEffect(() => {
   if (!user) {
   nav('/');
@@ -70,8 +71,7 @@ useEffect(()=>{
     <div className="App">
 
       <Routes>
-        {/* <Route path='/loading' element={<Loading/>} /> */}
-        
+
         <Route path='/teacherDashboard' 
           element={<TeacherDashboard 
           userData={userData}
