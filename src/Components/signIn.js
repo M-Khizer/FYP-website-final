@@ -2,19 +2,16 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { logDOM } from '@testing-library/react';
-import Delete from '../delete';
 export default function SignIn({username,password,nav,setPassword,setUsername,
   user,setUser,
 }) {
   
   const [error,setError]=useState(false);
     
-  
- 
-  
   const handleSignIn= async (e)=>{
+
     e.preventDefault();
-    
+        
     const res = await axios.post('https://sdok7nl5h2.execute-api.ap-northeast-1.amazonaws.com/prod/logininstructor',{
       username,
       password
@@ -40,8 +37,8 @@ const showErrorMessage = (error) => {
       position: toast.POSITION.TOP_RIGHT
   });
 };
-  // console.log(username,password)
-  return (
+
+return (
     <div className='main'>
       <div className='sub-main'>
         <h1 className='heading'>Sign In</h1>
@@ -58,10 +55,7 @@ const showErrorMessage = (error) => {
              onChange={(e=>{setPassword(e.target.value)})}
              value={password} required/>
           </div>
-          {/* <div className="checkbox-container">
-            <input type="checkbox" />
-            <label>Keep me signed in</label>
-          </div> */}
+
           <button className='sign-in-btn btn'>Sign In</button>
         </form>
           <ToastContainer/>
