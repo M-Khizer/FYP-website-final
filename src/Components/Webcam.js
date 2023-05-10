@@ -130,7 +130,7 @@ export default function Webcam({startScan,userData,selectCourse,nav,setSelectCou
             showAttendanceError('Attendance has already been marked')
           }
       })
-      }, [qrStudentId]);
+      }, [qrTimeIn]);
       // console.log(qrAltitude)
       
       
@@ -165,7 +165,7 @@ export default function Webcam({startScan,userData,selectCourse,nav,setSelectCou
   const rad=(c*r);
   setRadius(rad);
   console.log('distance ',rad);
-  if(rad<=10){
+  if(rad<=1){
     handleAttendance();
   }
   else{
