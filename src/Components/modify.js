@@ -1,6 +1,7 @@
 import axios from 'axios'
     import React, { useState } from 'react'
 import Delete from '../delete';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Modify({user,nav,selectCourse,selectCourseId,setSelectCourse,setSelectCourseId}) {
 
@@ -11,6 +12,11 @@ export default function Modify({user,nav,selectCourse,selectCourseId,setSelectCo
     const [studentID,setStudentID]=useState();
     const [date,setDate]=useState();
     
+     const showModifySuccessMessage = () => {
+        toast.success('Attendance marked', {
+            position: toast.POSITION.TOP_RIGHT
+        });
+    };
     console.log(date)
     console.log(selectCourse)
 
@@ -19,10 +25,7 @@ export default function Modify({user,nav,selectCourse,selectCourseId,setSelectCo
         const res = await axios.post('https://sdok7nl5h2.execute-api.ap-northeast-1.amazonaws.com/prod/studentinfo',{
             studentId:studentId
         })
-        // .then(res=>{
-        //     console.log(res.data)
-        //     // setStudent(res.data)
-        // })
+        
 
         const data = await res.data;
         setStudent(data)
@@ -46,7 +49,6 @@ export default function Modify({user,nav,selectCourse,selectCourseId,setSelectCo
         // console.log(Date().toLocaleString());
         console.log(selectCourseId);
         console.log(date)
-        console.log("attendance marked");
         
         console.log(studentId);
 
@@ -60,8 +62,10 @@ export default function Modify({user,nav,selectCourse,selectCourseId,setSelectCo
             firstName: student.student.firstName,
             courseName:  selectCourse
         }).then(()=>{
+            showModifySuccessMessage();
+
         })
-    }
+    }   
 
     console.log(user)
 
@@ -92,22 +96,25 @@ export default function Modify({user,nav,selectCourse,selectCourseId,setSelectCo
                     
                 </form>
                 
-                <form onSubmit={handleModifyAttendance} className='std-atd-mod'>
-                    <button>Submit</button>
-                </form>
+                {/* <form className='std-atd-mod'>
+                </form> */}
             
-            <div className='student-data-modify'>
+            <form className='student-data-modify' onSubmit={handleModifyAttendance} >
                 
                 <div>Student ID: {studentID}</div>
                 <div>First Name: {studentFirstName}</div>
                 <div>Last Name: {studentLastName}</div>
                 <input type={'date'} onChange={(e)=>{setDate(e.target.value)}}></input>
-            </div>
+                <button className='sub-btn'>Submit</button>
+
+            </form>
                 
             </div>
             
 
         </div>
+        <ToastContainer/>
+
     </div>  
 
   )

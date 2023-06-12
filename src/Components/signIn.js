@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { logDOM } from '@testing-library/react';
 export default function SignIn({username,password,nav,setPassword,setUsername,
   user,setUser,
 }) {
-  
-  const [error,setError]=useState(false);
-    
+      
   const handleSignIn= async (e)=>{
 
     e.preventDefault();

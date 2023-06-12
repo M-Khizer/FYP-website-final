@@ -26,85 +26,30 @@ export default function Webcam({startScan,userData,selectCourse,nav,setSelectCou
     const [studentLastName,setStudentLastName]=useState([]);
     const ref= useRef(null)
 
-    
-    // const [lat2, setLat2] = useState(
-    //   localStorage.getItem("latit2")
-    //     ? JSON.parse(localStorage.getItem("latit2"))
-    //     : null
-    // );
-    
+
     const [lat2, setLat2] = useState(0)
-    
-    // const [lon2, setLon2] = useState(
-    //   localStorage.getItem("longi2")
-    //     ? JSON.parse(localStorage.getItem("longi2"))
-    //     : null
-    // );
-    
+        
     const [lon2, setLon2] = useState(0)
     
-    // const [qrClassSection, setQrClassSection] = useState(
-      
-    //   localStorage.getItem("qrClassSection")
-    //     ? JSON.parse(localStorage.getItem("qrClassSection"))
-    //     : null
-    // );
     
     const [qrClassSection, setQrClassSection] = useState('')
     
-    // const [qrCourseId, setQrCourseId] = useState(
-    //   localStorage.getItem("qrCourseId")
-    //     ? JSON.parse(localStorage.getItem("qrCourseId"))
-    //     : null
-    // );
     
     const [qrCourseId, setQrCourseId] = useState('')
     
-    // const [qrCourseName, setQrCourseName] = useState(
-    //   localStorage.getItem("qrCourseName")
-    //     ? JSON.parse(localStorage.getItem("qrCourseName"))
-    //     : null
-    // );
+   
     
     const [qrCourseName, setQrCourseName] = useState('')
     
-    // const [qrFirstName, setQrFirstName] = useState(
-    //   localStorage.getItem("qrFirstName")
-    //     ? JSON.parse(localStorage.getItem("qrFirstName"))
-    //     : null
-    // );
     
     const [qrFirstName, setQrFirstName] = useState('')
-    
-    // const [qrLastName, setQrLastName] = useState(
-    //   localStorage.getItem("qrLastName")
-    //     ? JSON.parse(localStorage.getItem("qrLastName"))
-    //     : null
-    // );
-    
-    // const [qrStudentId, setQrStudentId] = useState(
-    //   localStorage.getItem("qrStudentId")
-    //     ? JSON.parse(localStorage.getItem("qrStudentId"))
-    //     : null
-    // );
     
     const [qrLastName, setQrLastName] = useState('');
     
     const [qrStudentId, setQrStudentId] = useState('');
     
-    // const [qrAltitude, setQrAltitude] = useState(
-    //   localStorage.getItem("qrAltitude")
-    //     ? JSON.parse(localStorage.getItem("qrAltitude"))
-    //     : null
-    // );  
     
     const [qrAltitude, setQrAltitude] = useState(0);
-
-    // const [qrTimeIn, setQrTimeIn] = useState(
-    //   localStorage.getItem("qrTimeIn")
-    //     ? JSON.parse(localStorage.getItem("qrTimeIn"))
-    //     : null
-    // );
     const [qrTimeIn, setQrTimeIn] = useState('')
 
     const [stdId,setStdId]=useState([]);
@@ -131,7 +76,6 @@ export default function Webcam({startScan,userData,selectCourse,nav,setSelectCou
           }
       })
       }, [qrTimeIn]);
-      // console.log(qrAltitude)
       
       
       
@@ -155,13 +99,7 @@ export default function Webcam({startScan,userData,selectCourse,nav,setSelectCou
     
   let c = 2 * Math.asin(Math.sqrt(a));
   
-  // Radius of earth in kilometers. Use 3956
-  // for miles
   let r = 6371;
-  // console.log("Distance",c);
-  // calculate the result
-  // setRadius(c*r);
-  // console.log(c*r);
   const rad=(c*r);
   setRadius(rad);
   console.log('distance ',rad);
@@ -194,7 +132,6 @@ export default function Webcam({startScan,userData,selectCourse,nav,setSelectCou
   const handleAttendance= async()=>{
     console.log(qrStudentId)
       if (qrStudentId){
-      console.log(`teacher course ${selectCourse} student course ${qrCourseName}`)
      
       if(selectCourse.toString() === qrCourseName.toString()){
         
@@ -203,7 +140,7 @@ export default function Webcam({startScan,userData,selectCourse,nav,setSelectCou
         const res = await axios.post('https://sdok7nl5h2.execute-api.ap-northeast-1.amazonaws.com/prod/attendance',
         attendance).then((data)=>{
           console.log(data.data.attendance.studentId)
-
+          
           setStdId(prev=>[...prev,data.data.attendance.studentId])
           console.log(stdId);
 
@@ -241,15 +178,9 @@ export default function Webcam({startScan,userData,selectCourse,nav,setSelectCou
     <div className='main'>  
         <div className='sub-main web'>
           <Delete nav={nav} />
-        {/* <h2 className='heading student-name'>{userData?.user.name}</h2> */}
-            
-            {/* <div className='student-metadata'>
-                
-                <span>ID: {userData?.instructor.id}</span>
-                <span>{selectCourse}</span>
-            </div> */}
-        {/* {console.log(startScan)} */}
+        
         <div className='cam-display-container'>
+          
         {startScan && (
             <QrReader
                 
@@ -314,10 +245,6 @@ export default function Webcam({startScan,userData,selectCourse,nav,setSelectCou
       <li>{res}</li>
     })}</p>} */}
     
-    {/* <Distance lat2={lat2} lon2={lon2} qrAltitude={qrAltitude} 
-      qrClassSection={qrClassSection} qrCourseId={qrCourseId} 
-      qrCourseName={qrCourseName} qrFirstName={qrFirstName} qrLastName={qrLastName} 
-      qrStudentId={qrStudentId} qrTimeIn={qrTimeIn} /> */}
 
    </div>
 
